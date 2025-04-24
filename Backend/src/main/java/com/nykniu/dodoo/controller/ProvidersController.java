@@ -1,20 +1,32 @@
 package com.nykniu.dodoo.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+
+import javax.mail.MessagingException;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.yaml.snakeyaml.Yaml;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.nykniu.dodoo.GlobalVars;
 import com.nykniu.dodoo.PdfHandler;
+import com.nykniu.dodoo.manager.MailManager;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +39,6 @@ public class ProvidersController {
      * Obtener información del refc y de los tickets según los proveedores. Se
      * ignora el rfc en texto si es que hay un archivo pdf
      * 
-     * @param email        Correo a dónde enviar el comprobante
      * @param rfc          RFC del contribuyente en forma de String
      * @param rfcPdf       RCF del contribuyente en forma de pdf en base 64
      * @param ticketsArray Arreglo de los folios a obtener
@@ -40,7 +51,6 @@ public class ProvidersController {
     @RequestMapping(value = "/getInfo", method = RequestMethod.POST, produces = "application/json")
     public String getInfo(
             ModelMap model, HttpServletRequest request, HttpServletResponse response,
-            @RequestParam(value = "email", required = true) String email,
             @RequestParam(value = "rfc", required = true) String rfc,
             @RequestParam(value = "rfcPdf", required = false) String rfcPdf,
             @RequestParam(value = "tickets", required = true) JsonArray ticketsArray)
@@ -74,7 +84,7 @@ public class ProvidersController {
         result.add("ticketResults", ticketResults);
         result.addProperty("rfc", rfcData.get("rfc"));
         result.addProperty("country", "Mexico");
-        result.addProperty("razon",
+        result.addProperty("fullName",
                 rfcData.get("name") + " " + rfcData.get("pSurname") + " " + rfcData.get("mSurname"));
         result.addProperty("street", rfcData.get("street"));
         result.addProperty("extNum", rfcData.get("extNum"));
@@ -91,16 +101,14 @@ public class ProvidersController {
      * Usuario envía confirmación de información, con la cual se generan los
      * archivos de facturación y se envían en el correo de confirmación
      * 
-     * @param model
-     * @param request
-     * @param response
      * @param email
      * @param confirmedData
      * @param ticketsArray
      * @return
      * @throws ClassNotFoundException
      * @throws SQLException
-     * @throws FileNotFoundException
+     * @throws IOException 
+     * @throws MessagingException 
      */
     @RequestMapping(value = "/confirmInfo", method = RequestMethod.POST, produces = "application/json")
     public int getInfo(
@@ -108,13 +116,36 @@ public class ProvidersController {
             @RequestParam(value = "email", required = true) String email,
             @RequestParam(value = "confirmedData", required = true) JsonObject confirmedData,
             @RequestParam(value = "tickets", required = true) JsonArray ticketsArray)
-            throws ClassNotFoundException, SQLException, FileNotFoundException {
+            throws ClassNotFoundException, SQLException, IOException, MessagingException {
 
-        // TODO Paso 2:
-        //
+        InputStream in = new FileInputStream("./rsc/connections.yml");
+        String templateHTML = Files.readString(Paths.get("./rsc/templates/invoiceTemplate.html"));
+        templateHTML
+                .replace("${rfc}", confirmedData.get("rfc").getAsString())
+                .replace("${fullName}", confirmedData.get("fullName").getAsString())
+                .replace("${street}", confirmedData.get("street").getAsString())
+                .replace("${extNum}", confirmedData.get("extNum").getAsString())
+                .replace("${intNum}", confirmedData.get("intNum").getAsString())
+                .replace("${state}", confirmedData.get("state").getAsString())
+                .replace("${town}", confirmedData.get("town").getAsString())
+                .replace("${suburb}", confirmedData.get("suburb").getAsString())
+                .replace("${postalCode}", confirmedData.get("postalCode").getAsString());
+
+        PdfRendererBuilder builder = new PdfRendererBuilder();
+	    OutputStream os = new ByteArrayOutputStream();
+	    builder.useFastMode();
+	    builder.withHtmlContent(templateHTML.toString(), "./");
+	    builder.toStream(os);
+	    builder.run();
+	    
+	    byte[] pdfFile = ((ByteArrayOutputStream)os).toByteArray();
+        HashMap<String, byte[]> attachments = new HashMap<>();
+        attachments.put("Reporte PDF", pdfFile);
         // TODO Generar el archivo xml desde archivo xsd
-        // TODO Generar el archivo pdf
-        // TODO Enviar un email de confirmación junto con los archivos
+        // attachments.put("Reporte XML", xmlFile);
+
+        MailManager.sendEmail(email, "Reporte de Facturación", "Aquí está la factura que facturo con el sistema de facturación de facturaGFA", attachments);
+
         // TODO Guardar archivo xml en carpeta xml y guardar ruta en la bd
 
         return 0;

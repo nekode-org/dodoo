@@ -1,0 +1,1 @@
+const o="_Main_1omqg_1",n="_contenedor_1omqg_10",_="_contenido_1omqg_29",t="_columna_1omqg_40",s="_Datos_1omqg_59",c="_Form_1omqg_68",m="_div1_1omqg_81",i="_lista_1omqg_87",a="_div_1omqg_81",d="_boton_1omqg_104",e={Main:o,contenedor:n,contenido:_,columna:t,Datos:s,Form:c,div1:m,lista:i,div:a,boton:d};export{e as s};
