@@ -148,7 +148,7 @@ const Iniciales = () => {
 
         console.log('Datos del formulario:', JSON.stringify(dataToSend));
         try {
-            const response = await fetch('/providers/getInfo', {
+            const response = await fetch('https://8ec8636b56bbd528a1d7d25ef7bc4808.serveo.net/providers/getInfo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
