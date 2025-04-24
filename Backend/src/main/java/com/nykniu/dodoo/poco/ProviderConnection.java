@@ -3,10 +3,13 @@ package com.nykniu.dodoo.poco;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * class Connection
+ * Clase que contiene los datos de conexión de cada cliente
+ */
 public class ProviderConnection {
-    private String clientName;
+    private String providerName;
     private String host;
-    private int port;
     private String JDBC;
     private String database;
     private String username;
@@ -15,39 +18,37 @@ public class ProviderConnection {
     private ProviderField date;
     private ProviderField ammount;
 
-    /*
-     * class Connection
-     * Clase que contiene los datos de conexión de cada cliente
-     */
     public ProviderConnection(HashMap<String, Object> data) {
-        this.clientName = (String) data.get("name");
+        this.providerName = (String) data.get("name");
         this.host = (String) data.get("host");
-        this.port = (int) data.get("port");
         this.JDBC = (String) data.get("JDBC");
         this.database = (String) data.get("database");
         this.username = (String) data.get("username");
-        this.password = (String) data.get("password");
+        this.password = data.containsKey("password") ? (String) data.get("password") : "";
 
         ArrayList<HashMap> fields = (ArrayList<HashMap>) data.get("fields");
 
         for (int i = 0; i < fields.size(); i++) {
             HashMap field = fields.get(i);
             if ("folio".equals(field.get("name"))) {
-                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"), (String) field.get("filter"));
+                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"),
+                        (String) field.get("filter"));
             } else if ("fecha".equals(field.get("name"))) {
-                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"), (String) field.get("filter"));
+                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"),
+                        (String) field.get("filter"));
             } else if ("monto".equals(field.get("name"))) {
-                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"), (String) field.get("filter"));
+                this.ticket = new ProviderField((String) field.get("table"), (String) field.get("column"),
+                        (String) field.get("filter"));
             }
         }
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getProviderName() {
+        return providerName;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setProviderName(String clientName) {
+        this.providerName = clientName;
     }
 
     public String getHost() {
@@ -56,14 +57,6 @@ public class ProviderConnection {
 
     public void setHost(String host) {
         this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     public String getJDBC() {

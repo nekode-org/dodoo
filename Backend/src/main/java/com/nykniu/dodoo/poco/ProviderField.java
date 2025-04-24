@@ -1,5 +1,8 @@
 package com.nykniu.dodoo.poco;
 
+/**
+ * Clase que contiene los datos para la obtención de información desde la bd
+ */
 public class ProviderField {
     private String tableName;
     private String columnName;
