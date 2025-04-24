@@ -26,6 +26,8 @@ public class YamlManager {
     private void refreshConfigFile() throws FileNotFoundException {
         long modified = new File("./rsc/connections.yml").lastModified();
         if (modified > lastModifided) {
+            lastModifided = modified;
+            yamlConfig = new HashMap<>();
             InputStream in = new FileInputStream("./rsc/connections.yml");
             ArrayList rawConfig = (ArrayList) ((HashMap) new Yaml().load(in)).get("connections");
 
@@ -42,7 +44,6 @@ public class YamlManager {
                     throw new NoSuchFieldError("Malformed YAML configuration!");
                 }
 
-                System.out.println(connectionData.toString());
                 if (!GlobalVars.managers.containsKey(connectionData.get("JDBC"))) {
                     throw new IllegalArgumentException("Unrecognized JDBC!");
                 }

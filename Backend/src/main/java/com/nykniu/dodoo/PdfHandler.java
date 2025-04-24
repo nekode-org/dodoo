@@ -1,6 +1,10 @@
 package com.nykniu.dodoo;
 
-import javax.imageio.ImageIO;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -8,21 +12,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.HashMap;
-
 public class PdfHandler {
-
-    public static void main(String[] args) throws IOException, TesseractException {
-        byte[] pdfBytes = Files.readAllBytes(new File("C:\\Users\\Laxelott\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\TVUFOIQX\\cif-PAAC9801042J3_hIvOskvwzG[1].pdf").toPath());;
-        HashMap result = extractData(pdfBytes);
-        System.out.println(result.toString());
-    }
 
     public static HashMap<String, String> extractData(byte[] fileBytes) throws IOException, TesseractException {
         HashMap<String, String> result = new HashMap<>();

@@ -7,7 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ForwardController {
     
     @RequestMapping(value = "/Datos")
-    public String forward() {
+    public String forwardDatos() {
         return "forward:/Datos/index.html";
+    }
+    @RequestMapping(value = "/Aviso")
+    public String forwardAviso() {
+        return "forward:/Aviso/index.html";
+    }
+    @RequestMapping(value = "/Recu")
+    public String forwardRecu() {
+        return "forward:/Recu/index.html";
     }
 }
