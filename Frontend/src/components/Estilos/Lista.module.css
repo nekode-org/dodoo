@@ -1,0 +1,148 @@
+.Main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.contenedor {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #F7F2D3;
+    border: 5px solid #f86404;
+    border-radius: 40px;
+    width: 30%;
+    min-height: 72vh;
+    max-height: 72vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.contenido {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Tres columnas iguales */
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    justify-content: start;
+    align-items: center;
+}
+
+.columna {
+    text-align: center;
+    padding: 5px;
+    border-right: 1px solid #ccc;
+    /* Línea de separación entre columnas */
+}
+
+.columna:last-child {
+    border-right: none;
+    /* Elimina la línea de la última columna */
+}
+
+h3 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.Datos {
+    display: flex;
+    width: 95%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 65vh;
+}
+
+.Form {
+    margin-top: 20px;
+    width: 95%;
+    height: 60vh;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(5, auto);
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
+    padding: 20px;
+    
+}
+
+.div1 { 
+    grid-area: 1 / 2 / 2 / 4; 
+    border: 5px solid #f86404;
+    border-radius: 10px;
+}
+
+.lista {
+    font-size: 10px;
+}
+
+.div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.div label, .div input {
+    margin: 2px 0;
+}
+
+.boton {
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    background-color: #f86404;
+    border-color: #f86404;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+@media (max-width: 480px) {
+    .Main {
+        flex-direction: column;
+        margin-top: 85px;
+    }
+    .contenedor {
+        width: 90%;
+        margin-top: 10px;
+        padding: 10px 0;
+    }
+
+    .Form {
+        padding: 20px 0;
+        width: 80%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            grid-column-gap: 25px;
+            grid-row-gap: 25px;
+            place-content: center;
+            
+            
+    }
+    .contenedor, .Form, .Main, .Datos {
+        height: auto;
+    }
+    .div1 { grid-area: 8 / 1 / 9 / 3; }
+
+    .Datos {
+        width: 90%;
+        height: auto;
+        margin-top: 0;
+        padding-top: 15px;
+    }
+}

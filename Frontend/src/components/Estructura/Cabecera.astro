@@ -41,4 +41,34 @@ import flecha from '../../assets/GFA.png';
     li {
         cursor: pointer;
     }
+
+    @media (max-width: 1000px) {
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        ul {
+            padding: 0 50px;
+        }
+    }
+    @media (max-width: 480px) {
+        header {
+            width: 100%;
+            flex-direction: column;
+            padding: 10px 0;
+            max-height: 70px;
+            z-index: 9999;
+        }
+
+        img {
+            width: 90px;
+        }
+
+        ul {
+            display: none;
+        }
+        h1, img {
+            margin: auto;
+        }
+    }
 </style>

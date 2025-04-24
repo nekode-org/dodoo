@@ -7,7 +7,7 @@ const Iniciales = () => {
         email: '',
         rfc: '',
         rfcPdf: null,
-        rfcPdfName: '',
+        rfcPdfName: null,
         tickets: [
             { id: Date.now(), ticketCode: '', providerCode: null }, // Folio por defecto
         ],
@@ -59,7 +59,7 @@ const Iniciales = () => {
             setFormData({
                 ...formData,
                 rfcPdf: null,
-                rfcPdfName: '', // Limpiar el nombre del archivo si no hay archivo
+                rfcPdfName: null, // Limpiar el nombre del archivo si no hay archivo
             });
         }
     };
@@ -109,7 +109,14 @@ const Iniciales = () => {
         };
 
         console.log('Datos del formulario:', JSON.stringify(dataToSend));
+        try{
+        document.cookie = await `data=${encodeURIComponent(JSON.stringify(dataToSend))}; path=/; max-age=3600`;
         // Aquí puedes enviar el JSON al endpoint
+        window.location.href = '/Datos'; // Redirigir a la página principal
+        } catch (error) {
+            console.error('Error al enviar el formulario:', error);
+            alert('Error al enviar el formulario. Por favor, inténtalo de nuevo.');
+        }
     };
 
     return (
@@ -176,8 +183,10 @@ const Iniciales = () => {
                         </div>
                     ))}
                 </div>
-                <button onClick={agregarFolio}>Agregar Folio</button>
-                <button onClick={enviarFormulario}>Enviar Formulario</button>
+                <div className={style.botonera}>
+                    <button onClick={agregarFolio}>Agregar Folio</button>
+                    <button onClick={enviarFormulario}>Enviar Formulario</button>
+                </div>
             </div>
         </div>
     );
