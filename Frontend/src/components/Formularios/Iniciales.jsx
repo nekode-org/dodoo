@@ -165,10 +165,14 @@ const Iniciales = () => {
                 </div>
 
                 <div className={style.foliosContainer}>
+                    <div className={style.Titulos}>
+                        <h3>Ingresa el número de ticket</h3>
+                        <h3 className={style.Titulito}>Selecciona la empresa correspondiente al ticket</h3>
+                    </div>
                     {formData.tickets.map((folio) => (
                         <div key={folio.id} className={style.folioitem}>
                             <Folio folio={folio} onInputChange={actualizarFolio} />
-                            <button onClick={() => eliminarFolio(folio.id)}>Eliminar</button>
+                            <button onClick={() => eliminarFolio(folio.id)} className={style.Basura}>&#128465;</button>
                         </div>
                     ))}
                 </div>
