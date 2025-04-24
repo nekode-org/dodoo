@@ -109,10 +109,22 @@ const Iniciales = () => {
         };
 
         console.log('Datos del formulario:', JSON.stringify(dataToSend));
-        try{
-        document.cookie = await `data=${encodeURIComponent(JSON.stringify(dataToSend))}; path=/; max-age=3600`;
-        // Aquí puedes enviar el JSON al endpoint
-        window.location.href = '/Datos'; // Redirigir a la página principal
+        try {
+            const response = await fetch('http://localhost:3000/api/crearTicket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            const responseData = await response.json();
+            console.log('Respuesta del servidor:', responseData);
+            document.cookie = await `data=${encodeURIComponent(JSON.stringify(responseData))}; path=/; max-age=3600`;
+            // Aquí puedes enviar el JSON al endpoint
+            window.location.href = '/Datos'; // Redirigir a la página principal
         } catch (error) {
             console.error('Error al enviar el formulario:', error);
             alert('Error al enviar el formulario. Por favor, inténtalo de nuevo.');
