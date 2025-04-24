@@ -4,14 +4,28 @@ import Lista from "../components/Formularios/Lista.jsx";
 ---
 
 <PrincipalLayout titulo="Datos">
-    <main>
+    <main class="primer">
     <Lista client:load />
 </main>
 </PrincipalLayout>
 
 <style>
-    main {
-        min-height: 80vh;
-    }
+    .primer {
+        width: 100%;
+		position: fixed;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	}
+	@media (max-width: 480px) {
+		.primer {
+			position: relative;
+			flex-direction: column;
+			width: 90%;
+			height: auto;
+			margin: auto;
+		}
+	}
 
 </style>
