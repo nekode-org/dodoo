@@ -1,0 +1,43 @@
+---
+import flecha from '../../assets/flechasn.png';
+---
+
+<header>
+    <img src={flecha.src} alt="LogoFlechaAmarilla">
+    <h1>Portal de facturación</h1>
+    <ul>
+        <li>Inicio</li>
+        <li>Reenvio de factura</li>
+        <li>Ayuda</li>
+    </ul>
+</header>
+
+<style>
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #FFA100;
+        padding: 10px 20px;
+        width: 100%;
+        max-height: 50px;
+        position: fixed;
+    }
+
+    img {
+        width: 300px;
+        height: auto;
+    }
+
+    ul {
+        list-style-type: none;
+        display: flex;
+        gap: 20px;
+        padding: 0 100px;
+        font-weight: bold;
+    }
+
+    li {
+        cursor: pointer;
+    }
+</style>

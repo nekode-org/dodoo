@@ -1,0 +1,44 @@
+---
+import Cabecera from "../components/Estructura/Cabecera.astro";
+const { titulo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{titulo}</title>
+    </head>
+    <body>
+        <div class="hero">
+            <Cabecera />
+            <main>
+                <slot />
+            </main>
+            <footer></footer>
+        </div>
+    </body>
+</html>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #fff;
+        height: 100%;
+    }
+    .hero {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    main {
+        flex: 1;
+    }
+    footer {
+        background-color: #ffa100;
+        height: 50px;
+        width: 100%;
+    }
+</style>
