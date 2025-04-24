@@ -19,11 +19,12 @@ const Iniciales = () => {
         // Fetch para obtener la lista de proveedores
         const fetchProviders = async () => {
             try {
-                const response = await fetch('/providers/getList');
+                const response = await fetch('https://8ec8636b56bbd528a1d7d25ef7bc4808.serveo.net/providers/getList');
                 if (!response.ok) {
                     throw new Error('Error al obtener la lista de proveedores');
                 }
                 const data = await response.json();
+                console.log('Lista de proveedores:', data);
                 setProviders(data); // Guardar la lista de proveedores en el estado
             } catch (error) {
                 console.error('Error al obtener los proveedores:', error);
