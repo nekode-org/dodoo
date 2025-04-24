@@ -1,22 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Folio from './Folio';
 import style from '../Estilos/Iniciales.module.css';
 
-// Este componente permite obtener los valores escenciales para realizar la 
-// facturación: correo electronico, rfc (por documento o texto), números de folio 
-// y empresa a la que corresponde el ticket.
-
 const Iniciales = () => {
-    // Estructura de los datos para enviar al servidor
     const [formData, setFormData] = useState({
         email: '',
         rfc: '',
         rfcPdf: null,
         rfcPdfName: null,
         tickets: [
-            { id: Date.now(), ticketCode: '', providerCode: null }, 
+            { id: Date.now(), ticketCode: '', providerCode: null },
         ],
     });
+
+    const [providers, setProviders] = useState([]); // Estado para almacenar la lista de proveedores
+
+    useEffect(() => {
+        // Fetch para obtener la lista de proveedores
+        const fetchProviders = async () => {
+            try {
+                const response = await fetch('/providers/getList');
+                if (!response.ok) {
+                    throw new Error('Error al obtener la lista de proveedores');
+                }
+                const data = await response.json();
+                setProviders(data); // Guardar la lista de proveedores en el estado
+            } catch (error) {
+                console.error('Error al obtener los proveedores:', error);
+            }
+        };
+
+        fetchProviders();
+    }, []);
+
+    // Este componente permite obtener los valores escenciales para realizar la 
+    // facturación: correo electronico, rfc (por documento o texto), números de folio 
+    // y empresa a la que corresponde el ticket.
+
+    // Estructura de los datos para enviar al servidor
+    // (Eliminado porque ya está declarado anteriormente)
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragCounter, setDragCounter] = useState(0); // Contador para manejar el parpadeo
@@ -138,7 +160,6 @@ const Iniciales = () => {
             const responseData = await response.json();
             console.log('Respuesta del servidor:', responseData);
             document.cookie = await `data=${encodeURIComponent(JSON.stringify(responseData))}; path=/; max-age=3600`;
-            // Aquí puedes enviar el JSON al endpoint
             window.location.href = '/Datos'; // Redirigir a la página principal
         } catch (error) {
             console.error('Error al enviar el formulario:', error);
@@ -146,7 +167,6 @@ const Iniciales = () => {
         }
     };
 
-    // Renderizar el componente
     return (
         <div
             className={style.fullScreenDropZone}
@@ -184,8 +204,6 @@ const Iniciales = () => {
                         {formData.rfcPdfName && (
                             <p style={{ color: 'green' }}>Archivo cargado: {formData.rfcPdfName}</p>
                         )}
-
-
                     </div>
                     <p>O</p>
                     <label className={style.rfcText}>
@@ -207,7 +225,23 @@ const Iniciales = () => {
                     {formData.tickets.map((folio) => (
                         <div key={folio.id} className={style.folioitem}>
                             <Folio folio={folio} onInputChange={actualizarFolio} />
-                            <button onClick={() => eliminarFolio(folio.id)} className={style.Basura}>&#128465;</button>
+                            <select
+                                name="providerCode"
+                                value={folio.providerCode || ''}
+                                onChange={(e) =>
+                                    actualizarFolio(folio.id, 'providerCode', e.target.value)
+                                }
+                            >
+                                <option value="">Seleccione una empresa</option>
+                                {providers.map((provider) => (
+                                    <option key={provider.numero} value={provider.numero}>
+                                        {provider.string}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={() => eliminarFolio(folio.id)} className={style.Basura}>
+                                &#128465;
+                            </button>
                         </div>
                     ))}
                 </div>
