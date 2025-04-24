@@ -1,0 +1,131 @@
+.principal {
+    margin-top: 70px;
+    padding: 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay que aparece cuando se arrastra un archivo */
+.dragOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo opaco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegúrate de que esté encima de todo */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+  
+.dragOverlay p {
+    margin: 0;
+}
+
+/* Zona de arrastrar que ocupa toda la pantalla */
+.fullScreenDropZone {
+  /* Fija el contenedor en toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; /* Asegúrate de que esté encima de otros elementos */
+  background: transparent; /* Fondo transparente para no bloquear la vista */
+}
+
+.email {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.email * {
+    margin: 15px 0;
+}
+
+.rfcContainer {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rfcPDF {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rfcText {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.foliosContainer {
+    width: 90%;
+    background-color: #F7F2D3;
+    border: 5px solid #f86404;
+    border-radius: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    min-height: 190px;
+    max-height: 190px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.folioitem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Elemento {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Folio, .Empresa {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Titulos {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    width: 46%;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.Titulito {
+    font-size: 13px;
+}
