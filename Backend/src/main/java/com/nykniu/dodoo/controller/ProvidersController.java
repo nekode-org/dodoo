@@ -1,25 +1,22 @@
 package com.nykniu.dodoo.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.yaml.snakeyaml.Yaml;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,6 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.sourceforge.tess4j.TesseractException;
 
 @RequestMapping("/providers")
+@Controller
 public class ProvidersController {
 
     /**
@@ -169,6 +167,7 @@ public class ProvidersController {
     @RequestMapping(value = "/getList", method = RequestMethod.GET, produces = "application/json")
     public String getList(
             ModelMap model, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException {
-        return GlobalVars.connectionManager.getProvidersList().toString();
+        String result = GlobalVars.connectionManager.getProvidersList().toString();
+        return result;
     }
 }

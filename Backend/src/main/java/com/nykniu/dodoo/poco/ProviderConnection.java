@@ -114,4 +114,12 @@ public class ProviderConnection {
     public void setAmmount(ProviderField ammount) {
         this.ammount = ammount;
     }
+
+    @Override
+    public String toString() {
+        return "ProviderConnection [providerName=" + providerName + ", host=" + host + ", JDBC=" + JDBC + ", database="
+                + database + ", username=" + username + ", password=" + password + ", ticket=" + ticket + ", date="
+                + date + ", ammount=" + ammount + "]";
+    }
+
 }
