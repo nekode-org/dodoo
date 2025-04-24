@@ -1,7 +1,5 @@
 ---
 import Iniciales from "../components/Formularios/Iniciales.jsx";
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
 import PrincipalLayout from "../layouts/PrincipalLayout.astro";
 import Info from "../components/Estructura/Info.astro";
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -27,5 +25,14 @@ import Info from "../components/Estructura/Info.astro";
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
+	}
+	@media (max-width: 480px) {
+		.primer {
+			position: relative;
+			flex-direction: column;
+			width: 90%;
+			height: auto;
+			margin: auto;
+		}
 	}
 </style>

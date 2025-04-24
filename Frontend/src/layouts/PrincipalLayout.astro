@@ -4,7 +4,7 @@ const { titulo } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,6 +30,7 @@ const { titulo } = Astro.props;
         height: 100%;
     }
     .hero {
+        width: 100%;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -41,5 +42,6 @@ const { titulo } = Astro.props;
         background-color: #f86404;
         height: 50px;
         width: 100%;
+        bottom: 0;
     }
 </style>

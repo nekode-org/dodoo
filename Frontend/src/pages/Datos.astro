@@ -1,0 +1,17 @@
+---
+import PrincipalLayout from "../layouts/PrincipalLayout.astro";
+import Lista from "../components/Formularios/Lista.jsx";
+---
+
+<PrincipalLayout titulo="Datos">
+    <main>
+    <Lista client:load />
+</main>
+</PrincipalLayout>
+
+<style>
+    main {
+        min-height: 80vh;
+    }
+
+</style>

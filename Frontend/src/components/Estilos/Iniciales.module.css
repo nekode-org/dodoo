@@ -129,3 +129,59 @@ h3 {
 .Titulito {
     font-size: 13px;
 }
+
+.botonera {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.botonera * {
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    background-color: #f86404;
+    border-color: #f86404;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+@media (max-width: 480px) {
+    .principal {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px 0;
+    }
+    .rfcContainer {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .foliosContainer {
+        width: 100%;
+        min-height: 300px;
+        max-height: 300px;
+    }
+
+    .Elemento {
+        width: 90%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    .Folio, .Empresa {
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .botonera {
+        width: 40%;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
