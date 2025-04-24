@@ -85,9 +85,10 @@ public class ConnectionManager {
             return result;
         }
 
-        result.addProperty("folio", res.getString("ticket"));
-        result.addProperty("fecha", res.getString("date"));
-        result.addProperty("monto", res.getString("ammount"));
+        result.addProperty("ticketIssuer", provider.getProviderName());
+        result.addProperty("ticketCode", res.getString("ticket"));
+        result.addProperty("ticketDate", res.getString("date"));
+        result.addProperty("ticketAmmount", res.getString("ammount"));
         result.addProperty("error", 0);
         return result;
     }
