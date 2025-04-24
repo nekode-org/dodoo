@@ -1,0 +1,9 @@
+DROP DATABASE IF EXISTS Empresa;
+CREATE DATABASE Empresa;
+USE Empresa;
+
+CREATE TABLE ticket (
+    folio VARCHAR(20) NOT NULL PRIMARY KEY UNIQUE,
+    monto DECIMAL(10 , 2 ) NOT NULL,
+    fecha DATETIME NOT NULL
+);
