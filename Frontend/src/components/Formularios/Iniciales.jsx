@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import Folio from './Folio';
 import style from '../Estilos/Iniciales.module.css';
 
+// Este componente permite obtener los valores escenciales para realizar la 
+// facturación: correo electronico, rfc (por documento o texto), números de folio 
+// y empresa a la que corresponde el ticket.
+
 const Iniciales = () => {
+    // Estructura de los datos para enviar al servidor
     const [formData, setFormData] = useState({
         email: '',
         rfc: '',
         rfcPdf: null,
         rfcPdfName: null,
         tickets: [
-            { id: Date.now(), ticketCode: '', providerCode: null }, // Folio por defecto
+            { id: Date.now(), ticketCode: '', providerCode: null }, 
         ],
     });
 
     const [isDragging, setIsDragging] = useState(false);
     const [dragCounter, setDragCounter] = useState(0); // Contador para manejar el parpadeo
 
+    // Agregar componente de folio
     const agregarFolio = () => {
         setFormData({
             ...formData,
@@ -23,6 +29,7 @@ const Iniciales = () => {
         });
     };
 
+    // Eliminar componente de folio
     const eliminarFolio = (id) => {
         setFormData({
             ...formData,
@@ -30,6 +37,7 @@ const Iniciales = () => {
         });
     };
 
+    // Actualizar el componente de folio
     const actualizarFolio = (id, campo, valor) => {
         setFormData({
             ...formData,
@@ -39,11 +47,13 @@ const Iniciales = () => {
         });
     };
 
+    // Manejar cambios en los inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    // Manejar cambios en el archivo PDF
     const handleFileChange = (file) => {
         if (file) {
             const reader = new FileReader();
@@ -64,6 +74,7 @@ const Iniciales = () => {
         }
     };
 
+    // Manejar el evento de arrastrar y soltar
     const handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -78,11 +89,13 @@ const Iniciales = () => {
         }
     };
 
+    // Manejar el evento de arrastrar sobre el área
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
     };
 
+    // Manejar el evento de entrar en el área de arrastre
     const handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -90,6 +103,7 @@ const Iniciales = () => {
         setIsDragging(true); // Muestra el overlay
     };
 
+    // Manejar el evento de salir del área de arrastre
     const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -102,6 +116,7 @@ const Iniciales = () => {
         });
     };
 
+    // Enviar el formulario
     const enviarFormulario = async () => {
         const dataToSend = {
             ...formData,
@@ -131,6 +146,7 @@ const Iniciales = () => {
         }
     };
 
+    // Renderizar el componente
     return (
         <div
             className={style.fullScreenDropZone}
