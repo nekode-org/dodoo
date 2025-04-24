@@ -1,6 +1,10 @@
 import React from 'react';
 import style from '../Estilos/Iniciales.module.css';
 
+// Este componente es el encargado de mostrar y recibir los elementos de el número de 
+// folio y la empresa a la que corresponde el ticket. Está hecho para poder mostrarse 
+// varias veces según sea necesario
+
 const Folio = ({ folio, onInputChange }) => {
   return (
     <div className={style.Elemento}>

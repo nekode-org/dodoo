@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../Estilos/Lista.module.css';
 
+// Este componente recupera los datos de los tickets (folio, fecha y monto) y los 
+// del cliente (si es que existen), en caso contrario se le pide al usuario que
+// ingrese los datos necesarios para la facturación.
+
 const Datos = () => {
     const [tickets, setTickets] = useState([]); // Estado para almacenar los tickets
+    const [formValues, setFormValues] = useState({}); // Estado para manejar los valores del formulario
 
     useEffect(() => {
         // Leer la cookie
@@ -11,8 +16,9 @@ const Datos = () => {
             const data = JSON.parse(responseData);
             console.log('Datos recibidos:', data);
 
-            // Guardar los tickets en el estado
-            setTickets(data.tickets || []); // Asegúrate de que sea un array
+            // Guardar los tickets y los valores iniciales del formulario
+            setTickets(data.ticketResults || []); // Asegúrate de que sea un array
+            setFormValues(data.infoApiSat || {}); // Asegúrate de que sea un objeto
 
             // Eliminar la cookie después de procesarla
             document.cookie = 'data=; path=/; max-age=0';
@@ -23,6 +29,44 @@ const Datos = () => {
         const cookies = document.cookie.split('; ');
         const cookie = cookies.find((c) => c.startsWith(`${nombre}=`));
         return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
+    };
+
+    const enviarFormulario = async () => {
+        const dataToSend = {
+            ticketResults: tickets,
+            infoApiSat: formValues,
+        };
+
+        console.log('Datos a enviar:', JSON.stringify(dataToSend));
+
+        try {
+            const response = await fetch('http://localhost:3000/api/enviarDatos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+
+            const responseData = await response.json();
+            console.log('Respuesta del servidor:', responseData);
+            alert('Datos enviados con éxito');
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            alert('Hubo un error al enviar los datos');
+        }
     };
 
     return (
@@ -38,8 +82,8 @@ const Datos = () => {
                     {/* Iterar sobre los tickets */}
                     {tickets.map((ticket, index) => (
                         <React.Fragment key={index}>
-                            <div className={styles.columna}>{ticket.ticketCode}</div>
-                            <div className={styles.columna}>{ticket.fechaConsumo}</div>
+                            <div className={styles.columna}>{ticket.folio}</div>
+                            <div className={styles.columna}>{ticket.fecha}</div>
                             <div className={styles.columna}>{ticket.monto}</div>
                         </React.Fragment>
                     ))}
@@ -49,15 +93,14 @@ const Datos = () => {
                 <h3>Validación de datos</h3>
                 <div className={styles.Form}>
                     <div className={styles.div}>
-                        <label htmlFor="email">Correo electronico</label>
+                        <label htmlFor="email">Correo electrónico</label>
                         <input
                             type="email"
                             id="email"
                             name="email"
-                            placeholder="Correo electronico"
-                            required
-                        // value={formData.email}
-                        // onChange={handleInputChange}
+                            placeholder="Correo electrónico"
+                            value={formValues.email || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div1}>
@@ -74,9 +117,8 @@ const Datos = () => {
                             type="text"
                             id="pais"
                             name="pais"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            value={formValues.pais || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
@@ -85,30 +127,29 @@ const Datos = () => {
                             type="text"
                             id="rfc"
                             name="rfc"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            value={formValues.rfc || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="razon">Nombre o razon social</label>
+                        <label htmlFor="razonSocial">Nombre o razón social</label>
                         <input
                             type="text"
-                            id="razon"
-                            name="razon"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="razonSocial"
+                            name="razonSocial"
+                            value={formValues.razonSocial || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="regimen">Regimen fiscal</label>
-                        <select name="regimen" id="regimen">
-                            <option value="">Seleccione un regimen fiscal</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
-                            <option value="opcion4">Opción 4</option>
-                            <option value="opcion5">Opción 5</option>
+                        <label htmlFor="regimen">Régimen fiscal</label>
+                        <select
+                            name="regimen"
+                            id="regimen"
+                            value={formValues.regimen || ''}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Seleccione un régimen fiscal</option>
                             <option value="opcion1">Opción 1</option>
                             <option value="opcion2">Opción 2</option>
                             <option value="opcion3">Opción 3</option>
@@ -117,13 +158,14 @@ const Datos = () => {
                         </select>
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="cfdi">Uso de CFID</label>
-                        <select name="cfid" id="cfid">
-                            <option value="">Seleccione un regimen fiscal</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
-                            <option value="opcion4">Opción 4</option>
-                            <option value="opcion5">Opción 5</option>
+                        <label htmlFor="cfdi">Uso de CFDI</label>
+                        <select
+                            name="cfdi"
+                            id="cfdi"
+                            value={formValues.cfdi || ''}
+                            onChange={handleInputChange}
+                        >
+                            <option value="">Seleccione un uso de CFDI</option>
                             <option value="opcion1">Opción 1</option>
                             <option value="opcion2">Opción 2</option>
                             <option value="opcion3">Opción 3</option>
@@ -137,42 +179,38 @@ const Datos = () => {
                             type="text"
                             id="calle"
                             name="calle"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            value={formValues.calle || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="ext">Número exterior</label>
+                        <label htmlFor="noExt">Número exterior</label>
                         <input
                             type="text"
-                            id="ext"
-                            name="ext"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="noExt"
+                            name="noExt"
+                            value={formValues.noExt || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="intt">Número interior</label>
+                        <label htmlFor="noInt">Número interior</label>
                         <input
                             type="text"
-                            id="intt"
-                            name="intt"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="noInt"
+                            name="noInt"
+                            value={formValues.noInt || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="enti">Entidad Federativa</label>
+                        <label htmlFor="entidadFederativa">Entidad Federativa</label>
                         <input
                             type="text"
-                            id="enti"
-                            name="enti"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="entidadFederativa"
+                            name="entidadFederativa"
+                            value={formValues.entidadFederativa || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
@@ -181,35 +219,34 @@ const Datos = () => {
                             type="text"
                             id="municipio"
                             name="municipio"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            value={formValues.municipio || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="col">Colonia</label>
+                        <label htmlFor="colonia">Colonia</label>
                         <input
                             type="text"
-                            id="col"
-                            name="col"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="colonia"
+                            name="colonia"
+                            value={formValues.colonia || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className={styles.div}>
-                        <label htmlFor="cp">Código postal</label>
+                        <label htmlFor="codigoPostal">Código postal</label>
                         <input
                             type="text"
-                            id="cp"
-                            name="cp"
-                            // value={formData.pais}
-                            // onChange={handleInputChange}
-                            required
+                            id="codigoPostal"
+                            name="codigoPostal"
+                            value={formValues.codigoPostal || ''}
+                            onChange={handleInputChange}
                         />
                     </div>
                 </div>
-                <button className={styles.boton} type="submit" >Enviar</button>
+                <button className={styles.boton} onClick={enviarFormulario}>
+                    Enviar
+                </button>
             </div>
         </div>
     );
