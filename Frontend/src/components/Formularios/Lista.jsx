@@ -48,7 +48,7 @@ const Datos = () => {
         console.log('Datos a enviar:', JSON.stringify(dataToSend));
 
         try {
-            const response = await fetch('http://localhost:3000/api/enviarDatos', {
+            const response = await fetch('/providers/confirmInfo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -125,7 +125,7 @@ const Iniciales = () => {
 
         console.log('Datos del formulario:', JSON.stringify(dataToSend));
         try {
-            const response = await fetch('http://localhost:3000/api/crearTicket', {
+            const response = await fetch('/providers/getInfo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
