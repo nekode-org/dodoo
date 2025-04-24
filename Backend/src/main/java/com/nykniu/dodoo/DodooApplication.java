@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DodooApplication {
 
     public static void main(String[] args) {
+        GlobalVars.connectionManager = new ConnectionManager();
+        GlobalVars.connectionManager.setupConnections();
+
         SpringApplication.run(DodooApplication.class, args);
     }
 
