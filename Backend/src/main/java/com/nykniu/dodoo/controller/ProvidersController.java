@@ -118,31 +118,40 @@ public class ProvidersController {
             @RequestParam(value = "tickets", required = true) JsonArray ticketsArray)
             throws ClassNotFoundException, SQLException, IOException, MessagingException {
 
-        InputStream in = new FileInputStream("./rsc/connections.yml");
-        String templateHTML = Files.readString(Paths.get("./rsc/templates/invoiceTemplate.html"));
-        templateHTML
-                .replace("${rfc}", confirmedData.get("rfc").getAsString())
-                .replace("${fullName}", confirmedData.get("fullName").getAsString())
-                .replace("${street}", confirmedData.get("street").getAsString())
-                .replace("${extNum}", confirmedData.get("extNum").getAsString())
-                .replace("${intNum}", confirmedData.get("intNum").getAsString())
-                .replace("${state}", confirmedData.get("state").getAsString())
-                .replace("${town}", confirmedData.get("town").getAsString())
-                .replace("${suburb}", confirmedData.get("suburb").getAsString())
-                .replace("${postalCode}", confirmedData.get("postalCode").getAsString());
-
-        PdfRendererBuilder builder = new PdfRendererBuilder();
-	    OutputStream os = new ByteArrayOutputStream();
-	    builder.useFastMode();
-	    builder.withHtmlContent(templateHTML.toString(), "./");
-	    builder.toStream(os);
-	    builder.run();
-	    
-	    byte[] pdfFile = ((ByteArrayOutputStream)os).toByteArray();
+        String templateHTML;
         HashMap<String, byte[]> attachments = new HashMap<>();
-        attachments.put("Reporte PDF", pdfFile);
-        // TODO Generar el archivo xml desde archivo xsd
-        // attachments.put("Reporte XML", xmlFile);
+
+        for (int i = 0; i < ticketsArray.size(); i++) {
+            JsonObject ticket = ticketsArray.get(i).getAsJsonObject();
+            templateHTML = Files.readString(Paths.get("./rsc/templates/invoiceTemplate.html"));
+            templateHTML
+                    .replace("${rfc}", confirmedData.get("rfc").getAsString())
+                    .replace("${fullName}", confirmedData.get("fullName").getAsString())
+                    .replace("${street}", confirmedData.get("street").getAsString())
+                    .replace("${extNum}", confirmedData.get("extNum").getAsString())
+                    .replace("${intNum}", confirmedData.get("intNum").getAsString())
+                    .replace("${state}", confirmedData.get("state").getAsString())
+                    .replace("${town}", confirmedData.get("town").getAsString())
+                    .replace("${suburb}", confirmedData.get("suburb").getAsString())
+                    .replace("${postalCode}", confirmedData.get("postalCode").getAsString())
+                    .replace("${ticketIssuer}", ticket.get("ticketIssuer").getAsString())
+                    .replace("${ticketCode}", ticket.get("ticketCode").getAsString())
+                    .replace("${ticketDate}", ticket.get("ticketDate").getAsString())
+                    .replace("${ticketAmmount}", ticket.get("ticketAmmount").getAsString());
+    
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            OutputStream os = new ByteArrayOutputStream();
+            builder.useFastMode();
+            builder.withHtmlContent(templateHTML.toString(), "./");
+            builder.toStream(os);
+            builder.run();
+            
+            byte[] pdfFile = ((ByteArrayOutputStream)os).toByteArray();
+            attachments.put("Reporte PDF", pdfFile);
+            // TODO Generar el archivo xml desde archivo xsd
+            // attachments.put("Reporte XML", xmlFile);   
+        }
+        
 
         MailManager.sendEmail(email, "Reporte de Facturación", "Aquí está la factura que facturo con el sistema de facturación de facturaGFA", attachments);
 
