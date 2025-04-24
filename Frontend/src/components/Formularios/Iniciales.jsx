@@ -144,7 +144,7 @@ const Iniciales = () => {
             const responseData = await response.json();
             console.log('Respuesta del servidor:', responseData);
             document.cookie = await `data=${encodeURIComponent(JSON.stringify(responseData))}; path=/; max-age=3600`;*/
-            window.location.href = '/'; // Redirigir a la página principal
+            window.location.href = '/Datos/index'; // Redirigir a la página principal
         } catch (error) {
             console.error('Error al enviar el formulario:', error);
             alert('Error al enviar el formulario. Por favor, inténtalo de nuevo.');
