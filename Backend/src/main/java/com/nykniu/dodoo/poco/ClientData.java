@@ -2,6 +2,10 @@ package com.nykniu.dodoo.poco;
 
 import java.util.Date;
 
+/**
+ * class ClientData
+ * Clase que contiene los datos de facturación de los clientes
+ */
 public class ClientData {
     private String rfc;
     private String razonSocial;
@@ -12,10 +16,6 @@ public class ClientData {
     private String address;
     private String postalCode;
 
-    /*
-     * class ClientData
-     * Clase que contiene los datos de facturación de los clientes
-     */
     public ClientData(String rfc, String razonSocial, String nombre, String apPaterno, String apMaterno,
             Date nacimiento, String domicilio, String codigoPostal) {
         this.rfc = rfc;

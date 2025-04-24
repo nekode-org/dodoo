@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte de Facturación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #d45500;
+    }
+    .reporte {
+      background-color: #fff;
+      border: 2px solid #ff6600;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    .dato {
+      margin-bottom: 10px;
+    }
+    .etiqueta {
+      font-weight: bold;
+      color: #333;
+    }
+    .valor {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Reporte de Facturación</h1>
+  <div class="reporte">
+    <div class="dato">
+      <span class="etiqueta">RFC:</span><span class="valor">${rfc}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Razón Social:</span><span class="valor">${fullName}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Calle:</span><span class="valor">${street}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">No. Ext & Int:</span><span class="valor">${extNum} - ${intNum}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Entidad Federativa:</span><span class="valor">${state}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Municipio:</span><span class="valor">${town}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Colonia:</span><span class="valor">${suburb}</span>
+    </div>
+    <div class="dato">
+      <span class="etiqueta">Código Postal:</span><span class="valor">${postalCode}</span>
+    </div>
+  </div>
+
+</body>
+</html>
