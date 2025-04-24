@@ -1,0 +1,29 @@
+.Elemento {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 85px;
+}
+
+.folioBusqueda {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.folioBusqueda *{
+    padding: 5px;
+    margin: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.folioBusqueda button {
+    background-color: #f86404;
+    border-color: #f86404;
+    color: white;
+}
