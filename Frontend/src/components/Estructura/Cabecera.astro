@@ -6,9 +6,9 @@ import flecha from '../../assets/GFA.png';
     <img src={flecha.src} alt="LogoFlechaAmarilla">
     <h1>Portal de facturación</h1>
     <ul>
-        <li>Inicio</li>
-        <li>Reenvio de factura</li>
-        <li>Ayuda</li>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/Recu">Recuperación de CFID</a></li>
+        <li><a href="/Preguntas">Preguntas frecuentes</a></li>
     </ul>
 </header>
 
@@ -22,7 +22,7 @@ import flecha from '../../assets/GFA.png';
         padding: 10px 20px;
         width: 100%;
         max-height: 50px;
-        position: fixed;
+        position: fixed;z-index: 10000;
     }
 
     img {
@@ -40,6 +40,16 @@ import flecha from '../../assets/GFA.png';
 
     li {
         cursor: pointer;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        
     }
 
     @media (max-width: 1000px) {
