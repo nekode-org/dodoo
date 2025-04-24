@@ -15,7 +15,23 @@ const Iniciales = () => {
 
     const [providers, setProviders] = useState([]); // Estado para almacenar la lista de proveedores
 
-   
+    useEffect(() => {
+        // Fetch para obtener la lista de proveedores
+        const fetchProviders = async () => {
+            try {
+                const response = await fetch('/providers/getList');
+                if (!response.ok) {
+                    throw new Error('Error al obtener la lista de proveedores');
+                }
+                const data = await response.json();
+                setProviders(data); // Guardar la lista de proveedores en el estado
+            } catch (error) {
+                console.error('Error al obtener los proveedores:', error);
+            }
+        };
+
+        fetchProviders();
+    }, []);
 
     // Este componente permite obtener los valores escenciales para realizar la 
     // facturación: correo electronico, rfc (por documento o texto), números de folio 
@@ -131,7 +147,7 @@ const Iniciales = () => {
 
         console.log('Datos del formulario:', JSON.stringify(dataToSend));
         try {
-            /*const response = await fetch('/providers/getInfo', {
+            const response = await fetch('/providers/getInfo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,8 +159,8 @@ const Iniciales = () => {
             }
             const responseData = await response.json();
             console.log('Respuesta del servidor:', responseData);
-            document.cookie = await `data=${encodeURIComponent(JSON.stringify(responseData))}; path=/; max-age=3600`;*/
-            window.location.href = '/Datos/index'; // Redirigir a la página principal
+            document.cookie = await `data=${encodeURIComponent(JSON.stringify(responseData))}; path=/; max-age=3600`;
+            window.location.href = '/Datos/index.html'; // Redirigir a la página principal
         } catch (error) {
             console.error('Error al enviar el formulario:', error);
             alert('Error al enviar el formulario. Por favor, inténtalo de nuevo.');

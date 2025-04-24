@@ -63,6 +63,7 @@ const Datos = () => {
             const responseData = await response.json();
             console.log('Respuesta del servidor:', responseData);
             alert('Datos enviados con éxito');
+            window.location.href = '/index.html';
         } catch (error) {
             console.error('Error al enviar los datos:', error);
             alert('Hubo un error al enviar los datos');
